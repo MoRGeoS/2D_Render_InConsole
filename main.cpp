@@ -6,7 +6,12 @@
 
 void setConsole()
 {
-    //Under main Function
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    DWORD dwMode = 0;
+    GetConsoleMode(hConsole, &dwMode);
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hConsole, dwMode);
 }
 
 int main()
@@ -22,14 +27,4 @@ int main()
     fps.detach();
     render.detach();
     draw.detach();
-}
-
-void setConsole()
-{
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    DWORD dwMode = 0;
-    GetConsoleMode(hConsole, &dwMode);
-    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    SetConsoleMode(hConsole, dwMode);
 }
