@@ -24,28 +24,32 @@ std::string* pSecondBuffer = &SecondBuffer;
 
 void Render()
 {
-    while (isRunning)
+    while (isRunning || isFirst)
     {
-        *pSecondBuffer = "\x1B[2J\x1B[H";
-        for (int y = 0; y < map.size(); y++)
+        while(isFrame)
         {
-            for (int x = 0; x < map[y].size(); x++)
+            *pSecondBuffer = "\x1B[2J\x1B[H";
+            for (int y = 0; y < map.size(); y++)
             {
-                if (map[y][x])
+                for (int x = 0; x < map[y].size(); x++)
                 {
-                    *pSecondBuffer += "#";
-                }
-                else
-                {
-                    *pSecondBuffer += " ";
-                }
+                    if (map[y][x])
+                    {
+                        *pSecondBuffer += "#";
+                    }
+                    else
+                    {
+                        *pSecondBuffer += " ";
+                    }
 
+                }
+                *pSecondBuffer += "\n";
             }
-            *pSecondBuffer += "\n";
-        }
-        while (isFrame && !isFirst)
-        {
-            std::this_thread::sleep_for(std::chrono::microseconds(100));
+
+            while (isFrame)
+            {
+                Sleep(1);
+            }
         }
         isFrame = true;
         isFirst = false;
